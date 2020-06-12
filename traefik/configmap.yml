@@ -1,0 +1,36 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: traefik-conf
+  namespace: traefik
+data:
+  traefik.toml: |
+    # traefik.toml
+    traefikEntryPoints = ["http"]
+    InsecureSkipVerify = true
+    checkNewVersion = false
+    [entryPoints]
+      [entryPoints.http]
+        address = ":80"
+      [entryPoints.api]
+        address = ":8080"
+        [entryPoints.api.auth]
+          [entryPoints.api.auth.basic]
+            users = [
+              "admin:YWRtaW46JGFwcjEkNFhLQU5hZmkkNFNwS3VwWnhkcVZSQlFHaVRxZ1Z1LgoK"
+            ]
+      [entryPoints.metrics]
+        address = ":8081"      
+      [entryPoints.ping]
+        address = ":8082"      
+    [kubernetes]
+    [api]
+      entrypoint = "api"
+      dashboard = true
+    [metrics]
+      [metrics.prometheus]
+        entryPoint = "metrics"
+    [ping]
+      entrypoint = "ping"
+    [accessLog]
+      format = "json"
