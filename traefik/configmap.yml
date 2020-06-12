@@ -17,7 +17,7 @@ data:
         [entryPoints.api.auth]
           [entryPoints.api.auth.basic]
             users = [
-              "admin:YWRtaW46JGFwcjEkNFhLQU5hZmkkNFNwS3VwWnhkcVZSQlFHaVRxZ1Z1LgoK"
+              "admin:$$2y$$05$$AkyYwXXA0QLbp7LOenehI.XaJe1kW7p9yEMxSjv3LHucWH51AoXxy"
             ]
       [entryPoints.metrics]
         address = ":8081"      
