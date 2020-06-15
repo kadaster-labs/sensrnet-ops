@@ -4,12 +4,12 @@ metadata:
   name: traefik-ingress-service
   namespace: traefik
   annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
-  loadBalancerIP: 51.138.20.60
+  loadBalancerIP: 20.54.130.120
   selector:
-    k8s-app: traefik-ingress-lb
+    app: traefik-ingress-controller
   ports:
     - protocol: TCP
       port: 80
@@ -20,4 +20,3 @@ spec:
     - protocol: TCP
       port: 8081
       name: metrics
-    
