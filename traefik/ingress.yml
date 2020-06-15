@@ -1,21 +1,21 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  namespace: traefik
-  name: traefik-dashboard
-  labels:
-    k8s-app: traefik-ingress-lb
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.frontend.rule.type: PathPrefixStrip
-    traefik.ingress.kubernetes.io/preserve-host: "true"
-spec:
-  rules:
-  - host: sensrnet-test.westeurope.cloudapp.azure.com
-    http:
-      paths:
-      - path: /internal/traefik
-        backend:
-          serviceName: traefik-ingress-service
-          servicePort: 8080
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   namespace: traefik
+#   name: traefik-dashboard
+#   labels:
+#     app: traefik-ingress-controller
+#   annotations:
+#     kubernetes.io/ingress.class: traefik
+#     traefik.frontend.rule.type: PathPrefixStrip
+#     traefik.ingress.kubernetes.io/preserve-host: "true"
+# spec:
+#   rules:
+#   - host: sensrnet-test.westeurope.cloudapp.azure.com
+#     http:
+#       paths:
+#       - path: /internal/traefik
+#         backend:
+#           serviceName: traefik-ingress-service
+#           servicePort: 8080
         

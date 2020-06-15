@@ -3,8 +3,8 @@ apiVersion: v1
 metadata:
   name: traefik-ingress-service
   namespace: traefik
-  annotations:
-    # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  # annotations:
+  #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:
   type: LoadBalancer
   loadBalancerIP: 20.54.130.120
