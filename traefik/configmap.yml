@@ -20,9 +20,13 @@ data:
               "admin:$apr1$XqddPymP$Qe5Q4Kv0fyyf6dSfihwX/1"
             ]
       [entryPoints.metrics]
-        address = ":8081"      
+        address = ":8081"
       [entryPoints.ping]
-        address = ":8082"      
+        address = ":8082"
+    [backends]
+      [backends.backend1]
+        # Enable sticky session
+        [backends.backend1.loadbalancer.stickiness]
     [kubernetes]
     [api]
       entrypoint = "api"
