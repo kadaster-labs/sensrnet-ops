@@ -5,7 +5,7 @@ function encrypt() {
 }
 
 function decrypt() {
-    gpg --yes --batch --passphrase $PASSPHRASE secrets.json.gpg
+    gpg -d --yes --batch -o secrets.json --passphrase $PASSPHRASE secrets.json.gpg
 }
 
 function printHelp() {
