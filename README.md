@@ -15,3 +15,28 @@ Encrypt new secrets (after updating `secrets.json`) with:
 ```bash
 $ ./secrets.sh encrypt <PASSPHRASE>
 ```
+
+## Work log
+
+On localhost:
+
+```bash
+$ kubectl config use-context docker-desktop
+```
+
+Init Kadaster PLS AKS test cluster:
+
+```bash
+$ az login
+# set default subscription (if not valid)
+$ az account set --subscription "etc-test"
+# get credentials
+$ ./aks-test.sh
+```
+
+Select Kadaster PLS AKS test cluster:
+
+```bash
+$ kubectl config use-context aks-sensrnet-test
+```
+
