@@ -7,13 +7,13 @@ Credentials are _never_ committed directly into this repo (or any!) but are stor
 Decrypt with:
 
 ```bash
-$ ./secrets.sh decrypt <PASSPHRASE>
+$ ./secrets.sh decrypt secrets.json.gpg <PASSPHRASE>
 ```
 
 Encrypt new secrets (after updating `secrets.json`) with:
 
 ```bash
-$ ./secrets.sh encrypt <PASSPHRASE>
+$ ./secrets.sh encrypt secrets.json <PASSPHRASE>
 ```
 
 ## Work log

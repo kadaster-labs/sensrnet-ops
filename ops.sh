@@ -8,7 +8,7 @@ function printHelp() {
     echo "  ops.sh <MODE> [FLAGS]"
     echo "    <MODE>"
     echo "      - 'get-credentials' - Get credentials for AKS cluster"
-    echo "      - 'select-cluster' - Select AKS cluster in local kubectl context"
+    echo "      - 'use-cluster' - Select AKS cluster in local kubectl context"
     echo ""
     echo "    Flags:"
     echo "    -e <env name> - Environment name: test or prod"
@@ -21,8 +21,12 @@ function printHelp() {
 
 function debug() {
   if [[ "$VERBOSE" = true ]]; then
-    echo -e "${COLOR}  DEBUG ${*}${NC}"
+    echo -e "${COLOR_CYAN}  DEBUG ${*}${NC}"
   fi
+}
+
+function error() {
+  echo -e "${COLOR_RED}ERROR ${*}${NC}"
 }
 
 function getCredentials() {
@@ -34,7 +38,7 @@ function getCredentials() {
     echo "Get credentials for env [$ENV_NAME] - [$CLUSTER_NAME]"
     export SECRETS=$(./secrets.sh decrypt secrets.json.gpg $PASSPHRASE)
     debug "$SECRETS"
-    RESOURCE_GROUP=$(echo "$SECRETS" | jq -r '.test.aksClusters[] | select(.name == "aks-sensrnet-test") | .resourceGroup')
+    RESOURCE_GROUP=$(echo "$SECRETS" | jq -r ".$ENV_NAME.aksClusters[] | select(.name == \"$CLUSTER_NAME\") | .resourceGroup")
     debug "Resource group: $RESOURCE_GROUP"
 
     if [[ "$RESOURCE_GROUP" == "" ]]; then
@@ -51,7 +55,8 @@ function selectCluster() {
 }
 
 # colors
-COLOR='\033[0;36m'
+COLOR_CYAN='\033[0;36m'
+COLOR_RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # properties
@@ -108,10 +113,10 @@ done
 SUBSCRIPTION=$(az account show | jq -r -c '.name')
 debug "current subscription: $SUBSCRIPTION"
 if [[ "$SUBSCRIPTION" != "etc-test" ]]; then
-    echo "ERROR: Wrong subscription (should be 'etc-test' but is [$SUBSCRIPTION]"
+    error "ERROR: Wrong subscription (should be 'etc-test' but is [$SUBSCRIPTION]"
     echo
     echo "Run: az account set --subscription \"etc-test\""
-    exit 1
+    echo
 fi
 
 
@@ -129,7 +134,7 @@ CONTEXT_NAME="$ENV_NAME.$CLUSTER_NAME"
 
 if [ "${MODE}" == "get-credentials" ]; then
   getCredentials
-elif [ "${MODE}" == "select-cluster" ]; then
+elif [ "${MODE}" == "use-cluster" ]; then
   selectCluster
 else
   printHelp
