@@ -109,6 +109,8 @@ SUBSCRIPTION=$(az account show | jq -r -c '.name')
 debug "current subscription: $SUBSCRIPTION"
 if [[ "$SUBSCRIPTION" != "etc-test" ]]; then
     echo "ERROR: Wrong subscription (should be 'etc-test' but is [$SUBSCRIPTION]"
+    echo
+    echo "Run: az account set --subscription \"etc-test\""
     exit 1
 fi
 

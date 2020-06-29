@@ -28,15 +28,15 @@ Init Kadaster PLS AKS test cluster:
 
 ```bash
 $ az login
-# set default subscription (if not valid)
+# set default subscription (if not already set properly)
 $ az account set --subscription "etc-test"
 # get credentials
-$ ./aks-test.sh
+$ ./ops.sh get-credentials -c <cluster-name> -p <passphrase (of secrets.json.gpg)>
 ```
 
 Select Kadaster PLS AKS test cluster:
 
 ```bash
-$ kubectl config use-context aks-sensrnet-test
+$ ./ops.sh select-cluster -c <cluster-name>
 ```
 
