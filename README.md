@@ -37,6 +37,11 @@ $ ./ops.sh get-credentials -c <cluster-name> -p <passphrase (of secrets.json.gpg
 Select Kadaster PLS AKS test cluster:
 
 ```bash
-$ ./ops.sh select-cluster -c <cluster-name>
+$ ./ops.sh use-cluster -c <cluster-name>
 ```
 
+## Local Dev Env
+
+```bash
+$ scoop install kustomize
+```
