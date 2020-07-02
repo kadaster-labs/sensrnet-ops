@@ -1,32 +1,37 @@
 #!/bin/bash
 
 function encrypt() {
-    gpg --yes --batch --passphrase $PASSPHRASE -c secrets.json
+    gpg --yes --batch --passphrase $PASSPHRASE -c $FILE
 }
 
 function decrypt() {
-    gpg -d --yes --batch -o secrets.json --passphrase $PASSPHRASE secrets.json.gpg
+    GPG_FILE=$FILE
+    LENGTH=${#FILE}
+    SRC_FILE=${FILE:0:$LENGTH-4}
+    # echo "Writing $SRC_FILE"
+    gpg -d --yes --batch --passphrase $PASSPHRASE $GPG_FILE
 }
 
 function printHelp() {
     echo "Usage:"
-    echo "  secrets.sh <MODE> <PASSPHRASE>"
+    echo "  secrets.sh <MODE> <FILE> <PASSPHRASE>"
     echo "    <MODE>"
     echo "      - 'encrypt' - encrypt file 'secrets.json'"
     echo "      - 'decrypt' - decrypt file 'secrets.json'"
     echo ""
     echo "Examples:"
-    echo "  secrets.sh encrypt helloworld"
-    echo "  secrets.sh decrypt helloworld"
+    echo "  secrets.sh encrypt secrets.json helloworld"
+    echo "  secrets.sh decrypt secrets.json.gpg helloworld"
 }
 
 ## Parse mode
-if [[ $# -lt 2 ]] ; then
+if [[ $# -lt 3 ]] ; then
   printHelp
   exit 0
 else
   MODE=$1
-  PASSPHRASE=$2
+  FILE=$2
+  PASSPHRASE=$3
 
   case $MODE in
     encrypt )
