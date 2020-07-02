@@ -45,3 +45,12 @@ $ ./ops.sh use-cluster -c <cluster-name>
 ```bash
 $ scoop install kustomize
 ```
+
+## Deploy Kustomize 'packages'
+
+```bash
+# deploy on localhost
+$ kubectl config use-context docker-desktop
+
+$ ./kust.sh apply -f kafka
+```

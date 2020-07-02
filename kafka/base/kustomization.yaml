@@ -1,0 +1,10 @@
+commonLabels:
+  app: kafka
+
+namespace: kafka
+
+resources:
+  - namespace.yaml
+  - zookeeper.yaml
+  - svc.yaml
+  - brokers.yaml
