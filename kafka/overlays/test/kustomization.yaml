@@ -6,3 +6,6 @@ resources:
   - ../../base
   - zookeeper-deployment.yaml
   - brokers-deployment.yaml
+
+# patchesStrategicMerge:
+  # - ../../

@@ -11,6 +11,7 @@ function printHelp() {
   echo "      - 'delete' - kubectl delete with kustomize"
   echo ""
   echo "    Flags:"
+  echo "    -e <env name> - Environment name: test or prod"
   echo "    -f <folder> - Folder to kustomization root"
   echo ""
   echo "Examples:"
@@ -31,17 +32,34 @@ function error() {
 function applyWithKustomize() {
   echo "Kustomize and kubectl apply [$FOLDER]"
   echo
-  pushd $FOLDER
-  kustomize build overlays/local/ | kubectl apply -f -
-  popd
+  KUSTOMIZE_PATH=$FOLDER/overlays/$ENV_NAME/
+  debug "building $KUSTOMIZE_PATH"
+  debugKustomize $KUSTOMIZE_PATH
+  kustomize build $KUSTOMIZE_PATH | kubectl apply -f -
 }
 
 function deleteWithKustomize() {
   echo "Kustomize and kubectl delete [$FOLDER]"
   echo
-  pushd $FOLDER
-  kustomize build overlays/local/ | kubectl delete -f -
-  popd
+  KUSTOMIZE_PATH=$FOLDER/overlays/$ENV_NAME/
+  debug "building $KUSTOMIZE_PATH"
+  debugKustomize $KUSTOMIZE_PATH
+  kustomize build $KUSTOMIZE_PATH | kubectl delete -f -
+}
+
+function debugKustomize() {
+  if [[ "$VERBOSE" = true ]]; then
+    echo -e "${COLOR_CYAN}"
+    kustomize build $KUSTOMIZE_PATH
+
+    if [ $? -ne 0 ]; then
+      echo -e "${NC}"
+      echo "ERROR !!! Building kustomize"
+      exit 1
+    fi
+    echo -e "${NC}"
+
+  fi
 }
 
 # colors
@@ -67,6 +85,10 @@ while [[ $# -ge 1 ]]; do
   -h)
     printHelp
     exit 0
+    ;;
+  -e )
+    ENV_NAME="$2"
+    shift
     ;;
   -f)
     FOLDER="$2"
@@ -96,6 +118,12 @@ echo "Using current context: $CURRENT_CONTEXT"
 echo
 
 CONTEXT_NAME="$ENV_NAME.$CLUSTER_NAME"
+
+if [[ "$ENV_NAME" == "" ]]; then
+  echo "WARN: option environment is empty: using 'local' as default environment"
+  echo
+  ENV_NAME=local
+fi
 
 if [ "${MODE}" == "apply" ]; then
   applyWithKustomize
