@@ -62,5 +62,7 @@ $ scoop install kustomize
 # deploy on localhost
 $ kubectl config use-context docker-desktop
 
-$ ./kust.sh apply -f kafka
+$ ./kust.sh apply -f kafka -e local
+
+$ kubectl -n kafka get all
 ```
