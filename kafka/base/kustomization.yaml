@@ -9,3 +9,5 @@ resources:
   - namespace.yaml
   - zookeeper/svc.yaml
   - brokers/svc.yaml
+  # - zookeeper/container/deployment.yaml
+  # - brokers/container/deployment.yaml

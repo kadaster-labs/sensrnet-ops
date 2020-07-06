@@ -50,6 +50,7 @@ Select Kadaster PLS AKS test cluster:
 $ ./ops.sh use-cluster -c <cluster-name>
 ```
 
+Create new AKS Kafka cluster:
 
 ```bash
 $ az account set --subscription sensrnet
