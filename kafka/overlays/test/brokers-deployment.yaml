@@ -2,7 +2,6 @@ kind: StatefulSet
 apiVersion: apps/v1beta1
 metadata:
   name: kafka-deployment-1
-  namespace: kafka-cluster
 spec:
   serviceName: kafka1
   replicas: 1

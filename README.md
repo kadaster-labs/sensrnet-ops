@@ -50,6 +50,17 @@ Select Kadaster PLS AKS test cluster:
 $ ./ops.sh use-cluster -c <cluster-name>
 ```
 
+
+```bash
+$ az account set --subscription sensrnet
+
+$ az group create --name sensrnet-kafka-2 --location westeurope
+
+$ az aks create --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2 --node-count 1 --enable-addons monitoring --generate-ssh-keys
+
+$ az aks get-credentials --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2
+```
+
 ## Local Dev Env
 
 ```bash
