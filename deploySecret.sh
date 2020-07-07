@@ -63,7 +63,7 @@ function deploySecret() {
       exit 1
     fi
 
-    kubectl create secret generic "$NAME" --from-file="username=./$USER_FILE" --from-file="password=./$PASS_FILE"
+    kubectl create secret generic "$NAME" --from-file="./$USER_FILE" --from-file="./$PASS_FILE"
 
     kubectl get secrets
 
