@@ -61,9 +61,13 @@ $ az aks create --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2 --
 
 $ az aks get-credentials --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2
 
+$ kubectl config use-context sensrnet-aks-kafka-2
+
 $ ./kust.sh apply -f kafka -e test
 
 $ kubectl -n kafka get all
+
+5b5621aa-64e5-4b63-a3a0-a5951c0e6bda
 ```
 
 ## Local Dev Env
