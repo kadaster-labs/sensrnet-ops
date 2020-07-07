@@ -62,6 +62,8 @@ $ az aks create --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2 --
 $ az aks get-credentials --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2
 ```
 
+> // TODO deploy kafka ([tutorial](https://portworx.com/run-ha-kafka-azure-kubernetes-service/)) and zookeeper ([tutorial](https://kubernetes.io/docs/tutorials/stateful-application/zookeeper/))
+
 ## Local Dev Env
 
 ```bash

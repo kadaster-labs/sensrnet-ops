@@ -6,4 +6,5 @@ commonLabels:
   app: kafka
 
 resources:
+  - pvc.yaml
   - deployment.yaml

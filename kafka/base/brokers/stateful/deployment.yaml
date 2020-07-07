@@ -7,11 +7,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      name: kafka-broker-1
+      app: kafka-broker-1
   template:
     spec:
       nodeSelector:
-        servertype: analytics
+        agentpool: nodepool1
       containers:
         - name: kafka
           image: wurstmeister/kafka:2.12-2.5.0
@@ -21,11 +21,11 @@ spec:
             - name: KAFKA_ADVERTISED_PORT
               value: "9092"
             - name: KAFKA_ADVERTISED_HOST_NAME
-              value: "load-balancer URL"
+              value: "sensrnet-kafka-2-test.westeurope.cloudapp.azure.com"
             - name: KAFKA_ZOOKEEPER_CONNECT
-              value: zoo1:2181,zoo2:2181,zoo3:2181
+              value: zoo1:2181
             - name: KAFKA_CREATE_TOPICS
-              value: "test-topic:3:2:compact"
+              value: "sync:1:1:compact"
             - name: KAFKA_LOG_DIRS
               value: /kafka/kafka-logs
             - name: KAFKA_BROKER_ID
@@ -36,9 +36,8 @@ spec:
               value: "compact"
           volumeMounts:
             - name: xr-volume
-              mountPath: "/kafka/kafka-logs"
+              mountPath: "/kafka"
       volumes:
         - name: xr-volume
-          nfs:
-            server: xxxxx.efs.eu-west-1.amazonaws.com
-            path: /kafka-k8/logs/broker1
+          persistentVolumeClaim:
+            claimName: kafka-disk-1

@@ -4,8 +4,8 @@ namespace: kafka
 
 resources:
   - ../../base
-  - zookeeper-deployment.yaml
-  - brokers-deployment.yaml
+  - ../../base/zookeeper/stateful
+  - ../../base/brokers/stateful
 
 # patchesStrategicMerge:
   # - ../../
