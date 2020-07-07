@@ -60,9 +60,11 @@ $ az group create --name sensrnet-kafka-2 --location westeurope
 $ az aks create --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2 --node-count 1 --enable-addons monitoring --generate-ssh-keys
 
 $ az aks get-credentials --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2
-```
 
-> // TODO deploy kafka ([tutorial](https://portworx.com/run-ha-kafka-azure-kubernetes-service/)) and zookeeper ([tutorial](https://kubernetes.io/docs/tutorials/stateful-application/zookeeper/))
+$ ./kust.sh apply -f kafka -e test
+
+$ kubectl -n kafka get all
+```
 
 ## Local Dev Env
 
