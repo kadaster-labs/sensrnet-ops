@@ -2,14 +2,6 @@
 
 This repo contains all operations 'stuff' needed to operate the environments @ Kadaster.
 
-## URIs
-
-| Name   | URI                                                    | Environment |
-|--------|--------------------------------------------------------|-------------|
-| Kafka1 | kafka1zs4ud5fbws3us-vm0.westeurope.cloudapp.azure.com | labs_test   |
-
-
-
 ## Secrets
 
 Credentials are _never_ committed directly into this repo (or any!) but are stored in the [GPG](https://www.if-not-true-then-false.com/2010/linux-encrypt-files-decrypt-files-gpg-interactive-non-interactive/) file: `secrets.json.gpg`
@@ -108,13 +100,7 @@ $ ./deploySecret.sh kafka-ca ca.crt.gpg ca.password.gpg -p $SENSRNET_PASSPHRASE
 $ scoop install kustomize
 ```
 
-## Deploy Kafka using Helm Operator
-If you haven't done so already, first install the Strimzi Kafka Operator (from: https://operatorhub.io/operator/strimzi-kafka-operator)
-1. Install Operator Lifecycle Manager (OLM), a tool to help manage the Operators running on your cluster.
-   - `curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/0.15.1/install.sh | bash -s 0.15.1`
-
-1. Install the operator by running the following command:
-   - `kubectl create -f https://operatorhub.io/install/strimzi-kafka-operator.yaml`
+## Deploy Kustomize 'packages'
 
 ```bash
 # deploy on localhost
