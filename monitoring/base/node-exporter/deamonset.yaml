@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+  labels:
+    k8s-app: node-exporter
+spec:
+  selector:
+    matchLabels:
+      k8s-app: node-exporter
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        k8s-app: node-exporter
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'                
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534    
+      serviceAccountName: node-exporter
+      containers:
+      - name: node-exporter
+        image: node-exporter
+        imagePullPolicy: IfNotPresent
+        args:
+          - --path.procfs=/host/proc
+          - --path.sysfs=/host/sys
+          - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker|var/lib/containers/.+)($|/)            
+          - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
+        ports:
+          - name: metrics
+            containerPort: 9100
+            #hostPort: 9100
+        # The `proc` and `sys` Node paths are mounted into the Pod at `/host/proc` and `/host/sys` respectively.
+        # To learn more about `proc` and `sys`, pseudo file systems that are used to provide information about the Node, 
+        volumeMounts:
+          - name: proc
+            mountPath: /host/proc
+            readOnly:  true
+          - name: sys
+            mountPath: /host/sys
+            readOnly: true
+          - name: root
+            mountPath: /host/root
+            readOnly: true                            
+      # The `hostNetwork` and `hostPID` Pod Security parameters are set to `true` to allow `node-exporter` 
+      # to  access the host process ID namespace and Node network namespace, which are required for scraping Node metrics
+      hostNetwork: true
+      hostPID: true
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists      
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: root
+          hostPath:
+            path: /            

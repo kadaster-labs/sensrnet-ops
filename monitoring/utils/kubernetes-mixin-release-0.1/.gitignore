@@ -1,0 +1,3 @@
+*.yaml
+dashboards_out
+jsonnetfile.lock.json

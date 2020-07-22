@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus
+  labels:
+    k8s-app: prometheus
+  annotations:
+    prometheus.io/scrape: 'true'    
+spec:
+  type: ClusterIP
+  ports:
+    - name: web
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
+  selector:
+    k8s-app: prometheus

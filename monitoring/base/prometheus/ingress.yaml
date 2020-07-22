@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus
+  labels:
+    k8s-app: prometheus
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
