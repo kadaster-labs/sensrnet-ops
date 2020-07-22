@@ -7,6 +7,7 @@ kind: Kustomization
 
 resources:
   # - namespace.yaml
+  - strimzi/storageclass.yaml
   - strimzi/deployment.yaml
   # - zookeeper/svc.yaml
   # - brokers/svc.yaml
