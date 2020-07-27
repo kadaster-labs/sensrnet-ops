@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# namespace: kafka
+
+# commonLabels:
+#   app: kafka
+
+resources:
+  # - namespace.yaml
+  - strimzi/storageclass.yaml
+  - strimzi/deployment.yaml
+  # - zookeeper/svc.yaml
+  # - brokers/svc.yaml
+  # - zookeeper/container/deployment.yaml
+  # - brokers/container/deployment.yaml
