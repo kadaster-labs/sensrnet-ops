@@ -29,4 +29,4 @@ configMapGenerator:
 images:
 - name: grafana
   newName: grafana/grafana
-  newTag: 6.4.4
+  newTag: 7.1.1
