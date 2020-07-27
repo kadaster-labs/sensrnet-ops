@@ -1,0 +1,43 @@
+kind: StatefulSet
+apiVersion: apps/v1beta1
+metadata:
+  name: kafka-deployment-1
+spec:
+  serviceName: kafka1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker-1
+  template:
+    spec:
+      nodeSelector:
+        agentpool: nodepool1
+      containers:
+        - name: kafka
+          image: wurstmeister/kafka:2.12-2.5.0
+          ports:
+            - containerPort: 9092
+          env:
+            - name: KAFKA_ADVERTISED_PORT
+              value: "9092"
+            - name: KAFKA_ADVERTISED_HOST_NAME
+              value: "sensrnet-kafka-2-test.westeurope.cloudapp.azure.com"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: zoo1:2181
+            - name: KAFKA_CREATE_TOPICS
+              value: "sync:1:1:compact"
+            - name: KAFKA_LOG_DIRS
+              value: /kafka/kafka-logs
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_JMX_PORT
+              value: "5555"
+            - name: KAFKA_CLEANUP_POLICY
+              value: "compact"
+          volumeMounts:
+            - name: xr-volume
+              mountPath: "/kafka"
+      volumes:
+        - name: xr-volume
+          persistentVolumeClaim:
+            claimName: kafka-disk-1

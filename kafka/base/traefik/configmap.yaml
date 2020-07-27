@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: traefik-conf
+  namespace: traefik
+data:
+  traefik.toml: |
+    # traefik.toml
+    traefikEntryPoints = ["http"]
+    InsecureSkipVerify = true
+    checkNewVersion = false
+    [entryPoints]
+      [entryPoints.http]
+        address = ":9092"
+    [kafka]
+      entrypoint = "kafka"
+    [accessLog]
+      format = "json"
