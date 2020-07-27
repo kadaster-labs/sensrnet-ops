@@ -1,15 +1,7 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: traefik
-
----
-
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: traefik-ingress-controller
-  namespace: traefik
 rules:
   - apiGroups:
       - ""
@@ -36,7 +28,6 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: traefik-ingress-controller
-  namespace: traefik
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
