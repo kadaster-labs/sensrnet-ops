@@ -22,7 +22,7 @@ spec:
   - metadata:
       name: data-volume
     spec:
-      storageClassName: managed-premium
+      storageClassName: managed-premium-retain
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
