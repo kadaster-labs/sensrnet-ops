@@ -13,6 +13,13 @@ patchesStrategicMerge:
   - statefulset.yaml  
   - ingress.yaml
 
+secretGenerator:
+  - name: grafana-admin-user
+    files:
+      - admin-user.secret
+      - admin-password.secret
+    type: Opaque
+
 configMapGenerator:
   - name: grafana-datasources
     files:

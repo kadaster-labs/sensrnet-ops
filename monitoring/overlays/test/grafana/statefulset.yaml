@@ -8,18 +8,17 @@ spec:
       containers:
         - name: grafana
           # Set the `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` environment variables
-          # using the Secret defined in `grafana-secret.yaml`
-          # env:
-          #   - name: GF_SECURITY_ADMIN_USER
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: sensrnet-monitoring-grafana
-          #         key: admin-user
-          #   - name: GF_SECURITY_ADMIN_PASSWORD
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: sensrnet-monitoring-grafana
-          #         key: admin-password
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-user
+                  key: admin-user.secret
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-user
+                  key: admin-password.secret
           resources:
             requests:
               cpu: 100m

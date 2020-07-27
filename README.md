@@ -40,6 +40,13 @@ Select Kadaster PLS AKS test cluster:
 $ ./ops.sh use-cluster -c <cluster-name>
 ```
 
+## Monitoring
+Before deploying the monitoring stack, first decode the admin credentials. Then, proceed as normal.
+```
+./secrets.sh decrypt grafana-admin-user.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-user.secret
+./secrets.sh decrypt grafana-admin-password.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-password.secret
+```
+
 ## Local Dev Env
 
 ```bash
