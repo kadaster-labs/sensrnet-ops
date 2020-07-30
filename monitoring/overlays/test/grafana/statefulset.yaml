@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana
+spec:
+  template:
+    spec:
+      containers:
+        - name: grafana
+          # Set the `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` environment variables
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-user
+                  key: admin-user.secret
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-user
+                  key: admin-password.secret
+          resources:
+            requests:
+              cpu: 100m
+              memory: 250M
+            limits:
+              cpu: 400m
+              memory: 500M
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      storageClassName: managed-premium-retain
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 50Gi

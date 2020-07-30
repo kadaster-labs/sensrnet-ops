@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - rbac.yaml
+  - statefulset.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: prometheus-alerts
+    files:
+    - alerts.yaml
+  - name: prometheus-rules
+    files:
+    - rules.yaml
+
+images:
+- name: prometheus
+  newName: quay.io/prometheus/prometheus
+  newTag: v2.14.0

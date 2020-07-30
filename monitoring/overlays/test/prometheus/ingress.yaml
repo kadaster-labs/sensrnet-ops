@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus
+spec:
+  rules:
+  - host: localhost
+  - http:
+      paths:
+      - path: /prometheus/
+        backend:
+          serviceName: prometheus
+          servicePort: 9090

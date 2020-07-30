@@ -94,6 +94,19 @@ $ ./ops.sh use-cluster -c sensrnet-gemeente-a -e labs_test
 $ ./deploySecret.sh kafka-ca ca.crt.gpg ca.password.gpg -p $SENSRNET_PASSPHRASE
 ```
 
+## Monitoring
+Before deploying the monitoring stack, first decode the admin credentials. 
+```
+./secrets.sh decrypt grafana-admin-user.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-user.secret
+./secrets.sh decrypt grafana-admin-password.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-password.secret
+```
+
+Then, proceed as normal.
+```
+kustomize build monitoring/overlays/test | kubectl apply -f -
+```
+
+
 ## Local Dev Env
 
 ```bash
