@@ -1,0 +1,14 @@
+# This file contains some helpful commands for operating a Azure Kubernetes Service cluster. It is not a script you
+# should run completely. Instead, specific commands can be run individually when required. Caution is advised.
+
+### Listing all AKS clusters within the current subscription
+az aks list --output table
+
+### Stopping and starting an AKS cluster ###
+# The Azure CLI can be used to shutdown all VMs within a cluster. This way, the cluster is effectively shut off. No more
+# costs are made for the VMs. The configuration and IPs are all kept. This way, the cluster can be resumed at a later
+# time when required. Please note that there are still costs for the public IPs and VHD, but these are relatively minor
+# compared to running the VMs. Since sept '20, there is a Azure feature in preview which allows us to start and stop a
+# cluster using the command line. https://docs.microsoft.com/en-us/azure/aks/start-stop-cluster
+az aks stop --name myAKSCluster --resource-group myResourceGroup
+az aks start --name myAKSCluster --resource-group myResourceGroup
