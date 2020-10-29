@@ -1,18 +1,21 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: traefik-ingress-service    
+  labels:
+    app: traefik-ingress-lb
+  name: traefik-ingress-lb
 spec:
-  type: LoadBalancer
   selector:
-    app: traefik-ingress-controller
+    app: traefik-ingress-lb
   ports:
-    - protocol: TCP
+    - name: web
+      protocol: TCP
       port: 80
-      name: web
-    - protocol: TCP
+    - name: metrics
+      protocol: TCP
       port: 8080
-      name: admin
-    - protocol: TCP
-      port: 8081
-      name: metrics
+    - name: multichain
+      protocol: TCP
+      port: 8571
+      targetPort: 8571
+  type: LoadBalancer
