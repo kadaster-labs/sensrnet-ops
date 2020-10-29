@@ -1,10 +1,9 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: prometheus
-  labels:
-    k8s-app: prometheus
   annotations:
     kubernetes.io/ingress.class: traefik
+  name: prometheus
 spec:
-  rules:
+  entryPoints: []
+  routes: null

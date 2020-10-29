@@ -1,13 +1,31 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: grafana
-  labels:
-    k8s-app: grafana
   annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/auth-remove-header: "true"
-    traefik.ingress.kubernetes.io/custom-request-headers: "Authorization:"
-    traefik.ingress.kubernetes.io/request-modifier: "ReplacePathRegex: ^/internal/grafana/(.*) /$1"
+    kubernetes.io/ingress.class: traefik
+  name: grafana
 spec:
-  rules:
+  entryPoints: []
+  routes: null
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: headers-empty-auth
+spec:
+  headers:
+    customRequestHeaders:
+      Authorization: ""
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: requestmodifier
+spec:
+  replacePathRegex:
+    regex: ^/internal/grafana/(.*)
+    replacement: /$1

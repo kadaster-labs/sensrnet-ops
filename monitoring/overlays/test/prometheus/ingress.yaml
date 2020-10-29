@@ -1,13 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: prometheus
 spec:
-  rules:
-  - host: localhost
-  - http:
-      paths:
-      - path: /prometheus/
-        backend:
-          serviceName: prometheus
-          servicePort: 9090
+  entryPoints:
+  - http
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/prometheus/`)
+    services:
+    - kind: Service
+      name: sensrnet-monitoring-prometheus
+      port: 9090
