@@ -24,7 +24,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: requestmodifier
+  name: requestmodifier-grafana
 spec:
   replacePathRegex:
     regex: ^/internal/grafana/(.*)
