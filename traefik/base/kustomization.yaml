@@ -5,7 +5,8 @@ namespace: traefik
 
 resources:
   - namespace.yaml
-  - configmap.yaml
-  - deployment.yaml
+  - customResourceDefinitions.yaml
+  - daemonset.yaml
   - rbac.yaml
   - service.yaml
+  - serviceAccount.yaml

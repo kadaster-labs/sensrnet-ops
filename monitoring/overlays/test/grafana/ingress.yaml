@@ -1,12 +1,17 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: grafana
 spec:
-  rules:
-  - http:
-      paths: 
-      - path: /internal/grafana
-        backend:
-            serviceName: grafana
-            servicePort: 3000
+  entryPoints:
+  - http
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/internal/grafana`)
+    services:
+    - kind: Service
+      name: sensrnet-monitoring-grafana
+      port: 3000
+    middlewares:
+    - name: sensrnet-monitoring-headers-empty-auth
+    - name: sensrnet-monitoring-requestmodifier-grafana

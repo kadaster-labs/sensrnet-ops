@@ -1,0 +1,82 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: traefik-ingress-controller
+  labels:
+    app: traefik-ingress-lb
+spec:
+  selector:
+    matchLabels:
+      app: traefik-ingress-lb
+  template:
+    metadata:
+      labels:
+        app: traefik-ingress-lb
+        name: traefik-ingress-lb
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      serviceAccountName: traefik-sa
+      terminationGracePeriodSeconds: 60
+      containers:
+        - image: traefik:2.3.2
+          name: traefik-ingress-lb
+          ports:
+            - name: http
+              containerPort: 80
+              hostPort: 80
+            - name: metrics
+              containerPort: 8080
+              hostPort: 8080
+            - name: ping
+              containerPort: 8081
+              hostPort: 8081
+            - name: multichain
+              containerPort: 8571
+              hostPort: 8571
+          args:
+            - --accesslog=true
+            - --accesslog.format=json
+            - --accesslog.fields.names.RequestHost=keep
+            - --accesslog.fields.headers.names.X-Forwarded-By=keep
+            - --accesslog.fields.headers.names.X-Forwarded-Host=keep
+            - --accesslog.fields.headers.names.X-Forwarded-Proto=keep
+            - --accesslog.fields.headers.names.X-Forwarded-For=keep
+            - --api
+            - --api.insecure=true
+            - --entrypoints.http.address=:80
+            - --entrypoints.http.forwardedHeaders.insecure=true
+            - --entrypoints.multichain.address=:8571
+            - --entrypoints.ping.address=:8081
+            - --metrics.prometheus
+            - --ping
+            - --ping.entryPoint=ping
+            - --providers.kubernetesCRD
+            - --providers.kubernetesCRD.namespaces=traefik,multichain,sensrnet-frontend,sensrnet-backend,monitoring
+            - --providers.kubernetesingress
+#         container health checks
+          livenessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /ping
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            failureThreshold: 2
+            httpGet:
+              path: /ping
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+#         container resource reservations/limits
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "200M"
+            limits:
+              cpu: "1"
+              memory: "2G"
