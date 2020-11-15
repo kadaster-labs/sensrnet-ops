@@ -10,15 +10,8 @@ commonLabels:
   environment: test
 
 patchesStrategicMerge:
-  - statefulset.yaml  
+  - statefulset.yaml
   - ingress.yaml
-
-secretGenerator:
-  - name: grafana-admin-user
-    files:
-      - admin-user.secret
-      - admin-password.secret
-    type: Opaque
 
 configMapGenerator:
   - name: grafana-datasources

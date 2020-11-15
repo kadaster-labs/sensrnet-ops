@@ -13,12 +13,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-user
-                  key: admin-user.secret
+                  key: username
             - name: GF_SECURITY_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-user
-                  key: admin-password.secret
+                  key: password
           resources:
             requests:
               cpu: 100m
