@@ -113,13 +113,25 @@ kustomize build monitoring/overlays/test | kubectl apply -f -
 $ scoop install kustomize
 ```
 
-## Deploy Kustomize 'packages'
+## Deploy registry node components
 
+### Initialization
+Before any images can be deployed on the created cluster, we'll assume that you have a (decrypted) JSON secrets file set. The example file `secrets.json` is provided in this repository. It is highly recommended that you set your own values in this value.
+
+Since each secret will live in the same namespace as the pod that'll use them, we'll have to first create the namespaces.
 ```bash
-# deploy on localhost
-$ kubectl config use-context docker-desktop
-
-$ ./kust.sh apply -f kafka -e local
-
-$ kubectl -n kafka get all
+$ kubectl apply -f namespaces.yaml
 ```
+
+Once the namespaces have been created in the Kubernetes cluster, we can then deploy the secrets.
+```bash
+python deployAllSecrets.py --inputfile <jsonfile> --cluster <cluster>
+```
+
+The secrets should now have been deployed successfully. You can check if they are created by inspecting:
+```bash
+$ kubectl get secrets -A
+```
+
+### Deployment
+The rest of the deployments can proceed as regular. The deployment files for each component can be built using Kustomize in their respective folders and deployed. Please note: whenever a namespace is recreated, the corresponding secrets would be have to deployed first.
