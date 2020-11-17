@@ -2,21 +2,75 @@
 
 This repo contains all operations 'stuff' needed to operate the environments @ Kadaster.
 
+## Local Dev Env
+
+Clone all repos by running the `clone_all_repos.sh` script directly on your command line:
+
+> WARNING works after this repo has been made public! 
+> 
+> Until then you need a link including temporary token (automatically generated in the browser)
+
+```bash
+$ curl -s -L https://raw.githubusercontent.com/kadaster-labs/sensrnet-ops/separate-secrets-from-ops/clone_all_repos.sh | bash
+```
+
+Install Kustomize to apply kustomization of the configuration ;-)
+
+```bash
+$ scoop install kustomize
+```
+
 ## Secrets
 
-Credentials are _never_ committed directly into this repo (or any!) but are stored in the [GPG](https://www.if-not-true-then-false.com/2010/linux-encrypt-files-decrypt-files-gpg-interactive-non-interactive/) file: `secrets.json.gpg`
+Credentials are _never_ committed directly into this repo (or any!) but are stored in the [GPG](https://www.if-not-true-then-false.com/2010/linux-encrypt-files-decrypt-files-gpg-interactive-non-interactive/) file: `../secrets/secrets.json.gpg` (where `../secrets` is a private cloned git repo)
 
 Decrypt with:
 
 ```bash
-$ ./secrets.sh decrypt secrets.json.gpg <PASSPHRASE>
+$ ./secrets.sh decrypt ../secrets/secrets.json.gpg <PASSPHRASE>
 ```
 
 Encrypt new secrets (after updating `secrets.json`) with:
 
 ```bash
-$ ./secrets.sh encrypt secrets.json <PASSPHRASE>
+$ ./secrets.sh encrypt ../secrets/secrets.json <PASSPHRASE>
 ```
+
+## Monitoring
+Before deploying the monitoring stack, first decode the admin credentials. 
+```
+./secrets.sh decrypt ../secrets/grafana-admin-user.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-user.secret
+./secrets.sh decrypt ../secrets/grafana-admin-password.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-password.secret
+```
+
+Then, proceed as normal.
+```
+kustomize build monitoring/overlays/test | kubectl apply -f -
+```
+
+
+## Deploy registry node components
+
+### Initialization
+Before any images can be deployed on the created cluster, we'll assume that you have a (decrypted) JSON secrets file set. The example file `secrets.json` is provided in this repository. It is highly recommended that you set your own values in this value.
+
+Since each secret will live in the same namespace as the pod that'll use them, we'll have to first create the namespaces.
+```bash
+$ kubectl apply -f namespaces.yaml
+```
+
+Once the namespaces have been created in the Kubernetes cluster, we can then deploy the secrets.
+```bash
+python deployAllSecrets.py --inputfile <jsonfile> --cluster <cluster>
+```
+
+The secrets should now have been deployed successfully. You can check if they are created by inspecting:
+```bash
+$ kubectl get secrets -A
+```
+
+### Deployment
+The rest of the deployments can proceed as regular. The deployment files for each component can be built using Kustomize in their respective folders and deployed. Please note: whenever a namespace is recreated, the corresponding secrets would be have to deployed first.
 
 ## Work log
 
@@ -91,47 +145,5 @@ Deploy secrets - in this case: `kafka-ca`
 ```bash
 $ ./ops.sh use-cluster -c sensrnet-gemeente-a -e labs_test
 
-$ ./deploySecret.sh kafka-ca ca.crt.gpg ca.password.gpg -p $SENSRNET_PASSPHRASE
+$ ./deploySecret.sh kafka-ca ../secrets/ca.crt.gpg ../secrets/ca.password.gpg -p $SENSRNET_PASSPHRASE
 ```
-
-## Monitoring
-Before deploying the monitoring stack, first decode the admin credentials. 
-```
-./secrets.sh decrypt grafana-admin-user.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-user.secret
-./secrets.sh decrypt grafana-admin-password.gpg <PASSPHRASE> > monitoring/overlays/test/grafana/admin-password.secret
-```
-
-Then, proceed as normal.
-```
-kustomize build monitoring/overlays/test | kubectl apply -f -
-```
-
-
-## Local Dev Env
-
-```bash
-$ scoop install kustomize
-```
-
-## Deploy registry node components
-
-### Initialization
-Before any images can be deployed on the created cluster, we'll assume that you have a (decrypted) JSON secrets file set. The example file `secrets.json` is provided in this repository. It is highly recommended that you set your own values in this value.
-
-Since each secret will live in the same namespace as the pod that'll use them, we'll have to first create the namespaces.
-```bash
-$ kubectl apply -f namespaces.yaml
-```
-
-Once the namespaces have been created in the Kubernetes cluster, we can then deploy the secrets.
-```bash
-python deployAllSecrets.py --inputfile <jsonfile> --cluster <cluster>
-```
-
-The secrets should now have been deployed successfully. You can check if they are created by inspecting:
-```bash
-$ kubectl get secrets -A
-```
-
-### Deployment
-The rest of the deployments can proceed as regular. The deployment files for each component can be built using Kustomize in their respective folders and deployed. Please note: whenever a namespace is recreated, the corresponding secrets would be have to deployed first.
