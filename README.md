@@ -6,12 +6,8 @@ This repo contains all operations 'stuff' needed to operate the environments @ K
 
 Clone all repos by running the `clone_all_repos.sh` script directly on your command line:
 
-> WARNING works after this repo has been made public! 
-> 
-> Until then you need a link including temporary token (automatically generated in the browser)
-
 ```bash
-$ curl -s -L https://raw.githubusercontent.com/kadaster-labs/sensrnet-ops/separate-secrets-from-ops/clone_all_repos.sh | bash
+$ curl -s -L https://raw.githubusercontent.com/kadaster-labs/sensrnet-ops/master/clone_all_repos.sh | bash
 ```
 
 Install Kustomize to apply kustomization of the configuration ;-)
