@@ -16,7 +16,6 @@ This repository contains all operations steps and scripts needed to operate the 
   - [Secret management](#secret-management)
   - [Monitoring](#monitoring)
   - [The Sensrnet application](#the-sensrnet-application)
-  - [Work log](#work-log)
 
 ## Prerequisites
 - **An Azure account** 
@@ -116,69 +115,4 @@ The rest of the deployments can proceed as regular. The deployment files for eac
 For each of the source code repos, run:
 ```bash
 $ kustomize build deployment/overlays/(prod|test|local) | kubectl apply -f -
-```
-
-## Work log
-
-On localhost:
-
-```bash
-$ kubectl config use-context docker-desktop
-```
-
-Init Kadaster PLS AKS test cluster:
-
-```bash
-$ az login
-# set default subscription (if not already set properly)
-$ az account set --subscription "etc-test"
-# get credentials
-$ ./ops.sh get-credentials -c <cluster-name> -p <passphrase (of secrets.json.gpg)>
-```
-
-Get credentials for `gemeente-a`, `gemeente-b` and `viewer` clusters:
-
-```bash
-$ ./ops.sh get-credentials -p $SENSRNET_PASSPHRASE -c sensrnet-gemeente-a -e labs_test
-
-$ ./ops.sh get-credentials -p $SENSRNET_PASSPHRASE -c sensrnet-gemeente-b -e labs_test
-
-$ ./ops.sh get-credentials -p $SENSRNET_PASSPHRASE -c sensrnet-viewer -e labs_test
-```
-
-Select Kadaster PLS AKS test cluster:
-
-```bash
-$ ./ops.sh use-cluster -c <cluster-name>
-```
-
-Create new AKS Kafka cluster:
-
-```bash
-
-
-$ az aks get-credentials --resource-group sensrnet-kafka-2 --name sensrnet-aks-kafka-2
-
-$ kubectl config use-context sensrnet-aks-kafka-2
-```
-
-
-Deployment using [strimzi](https://itnext.io/kafka-on-kubernetes-the-strimzi-way-part-2-43192f1dd831)
-
-```bash
-$ kubectl get configmap/my-kafka-cluster-kafka-config -o yaml > my-kafka-cluster.config.json
-
-$ export CLUSTER_NAME=my-kafka-cluster
-$ kubectl get secret $CLUSTER_NAME-cluster-ca-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode > ca.crt
-$ kubectl get secret $CLUSTER_NAME-cluster-ca-cert -o jsonpath='{.data.ca\.password}' | base64 --decode > ca.password
-
-$ kubectl get service/${CLUSTER_NAME}-kafka-external-bootstrap --output=jsonpath={.status.loadBalancer.ingress[0].ip}
-```
-
-Deploy secrets - in this case: `kafka-ca`
-
-```bash
-$ ./ops.sh use-cluster -c sensrnet-gemeente-a -e labs_test
-
-$ ./deploySecret.sh kafka-ca ../secrets/ca.crt.gpg ../secrets/ca.password.gpg -p $SENSRNET_PASSPHRASE
 ```
