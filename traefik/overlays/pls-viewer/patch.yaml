@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: traefik-ingress-service
+  name: traefik-ingress-lb
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 spec:

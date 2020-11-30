@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multichain-node
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: registry-backend
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: registry-frontend
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: traefik

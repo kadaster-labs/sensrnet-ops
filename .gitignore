@@ -1,3 +1,5 @@
 *.json
+!secrets_example.json
 *.log
 *.secret
+secrets/
