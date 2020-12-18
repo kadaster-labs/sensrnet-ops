@@ -1,0 +1,9 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik-ingress-lb
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 10.132.89.7
