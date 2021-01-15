@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  name: kibana-ingress
+spec:
+  entryPoints:
+  - http
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/internal/kibana/`)
+    services:
+    - kind: Service
+      name: kibana
+      port: http

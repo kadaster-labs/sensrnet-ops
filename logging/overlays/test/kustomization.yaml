@@ -1,0 +1,8 @@
+bases:
+- ../../base
+
+commonLabels:
+  environment: test
+
+patchesStrategicMerge:
+- elasticsearch/elasticsearch-stateful.yaml

@@ -53,7 +53,7 @@ spec:
             - --ping
             - --ping.entryPoint=ping
             - --providers.kubernetesCRD
-            - --providers.kubernetesCRD.namespaces=traefik,monitoring,multichain,registry-frontend,registry-backend,central-viewer
+            - --providers.kubernetesCRD.namespaces=traefik,monitoring,multichain,registry-frontend,registry-backend,central-viewer,logging
             - --providers.kubernetesingress
 #         container health checks
           livenessProbe:
