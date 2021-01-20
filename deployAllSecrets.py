@@ -21,15 +21,16 @@ def build_commands(json_file, cluster):
     commands = []
     all_secrets = json.load(json_file)
     secrets_for_cluster = all_secrets[cluster]
-    for secret_name, info in secrets_for_cluster.items():
-        namespaces = info['namespaces']
-        for namespace in namespaces:
-            command = 'kubectl create secret generic {} --namespace {}'.format(
-                secret_name, namespace)
-            for literal_key, literal_value in info['data'].items():
-                command += ' --from-literal={}={}'.format(
-                    literal_key, literal_value)
-            commands += [command]
+
+    for namespace, secrets in secrets_for_cluster.items():
+      for secret, data in secrets.items():
+        command = 'kubectl create secret generic {} --namespace {}'.format(secret, namespace)
+
+        for literal_key, literal_value in data.items():
+          command += ' --from-literal={}={}'.format(literal_key, literal_value)
+
+        commands += [command]
+
     return commands
 
 
