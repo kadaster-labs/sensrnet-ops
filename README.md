@@ -15,7 +15,13 @@ This repository contains all operations steps and scripts needed to operate the 
   - [Initialization](#initialization)
   - [Secret management](#secret-management)
   - [Monitoring](#monitoring)
+  - [Logging](#logging)
   - [The Sensrnet application](#the-sensrnet-application)
+- [About this project](#about-this-project)
+  - [Find Us](#find-us)
+  - [Contributing](#contributing)
+  - [Maintainers <a name="maintainers"></a>](#maintainers-)
+  - [License](#license)
 
 ## Prerequisites
 - **An Azure account** 
@@ -104,9 +110,15 @@ $ kubectl get secrets -A
 See [Secrets](#Secrets) on how to update and store the secrets file locally. Every time you update the secrets, you have to rerun these steps.
 
 ## Monitoring
-Now that the namespaces and secrets are available, we can deploy the monitoring stack. We make use of Prometheus + Grafana for monitoring and the ELK stack for logging.
+Now that the namespaces and secrets are available, we can deploy the monitoring stack. We make use of Prometheus + Grafana for monitoring.
 ```bash
 $ kustomize build monitoring/overlays/test | kubectl apply -f -
+```
+
+## Logging
+For cluster and application logging we make use of the EFK stack (Elasticsearch, Fluentd, Kibana). In 
+```bash
+$ kustomize build logging/overlays/test | kubectl apply -f -
 ```
 
 ## The Sensrnet application
@@ -117,6 +129,7 @@ For each of the source code repos, run:
 $ kustomize build deployment/overlays/(prod|test|local) | kubectl apply -f -
 ```
 
+# About this project
 ## Find Us
 
 * [GitHub](https://github.com/kadaster-labs/sensrnet-home)

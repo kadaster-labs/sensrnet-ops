@@ -13,3 +13,4 @@ git clone git@github.com:kadaster-labs/sensrnet-multichain.git multichain
 git clone git@github.com:kadaster-labs/sensrnet-sync.git sync
 
 git clone git@github.com:kadaster-labs/sensrnet-central-viewer.git central-viewer
+git clone git@github.com:kadaster-labs/sensrnet-central-viewer-geoserver.git central-viewer-geoserver

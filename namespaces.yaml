@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: multichain-node
+  name: demo
 
 ---
 
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: registry-backend
+  name: viewer
 
 ---
 
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: registry-frontend
+  name: logging
 
 ---
 
