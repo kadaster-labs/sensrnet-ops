@@ -18,4 +18,5 @@ spec:
       protocol: TCP
       port: 8571
       targetPort: 8571
+  externalTrafficPolicy: Local
   type: LoadBalancer
