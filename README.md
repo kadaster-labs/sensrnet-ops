@@ -34,10 +34,10 @@ This repository contains all operations steps and scripts needed to operate the 
 # Set up the environment
 ## Clone repositories
 Clone all repos by running the `clone_all_repos.sh` script directly on your command line. The contents of the file can be inspected [here](
-  https://github.com/kadaster-labs/sensrnet-ops/blob/master/clone_all_repos.sh). The script clones all repositories related to Sensrnet to the current folder.
+  https://github.com/kadaster-labs/sensrnet-ops/blob/main/clone_all_repos.sh). The script clones all repositories related to Sensrnet to the current folder.
 
 ```bash
-$ curl -s -L https://raw.githubusercontent.com/kadaster-labs/sensrnet-ops/master/clone_all_repos.sh | bash
+$ curl -s -L https://raw.githubusercontent.com/kadaster-labs/sensrnet-ops/main/clone_all_repos.sh | bash
 ```
 *Note: We strongly recommend to first inspect the content of scripts from remote sources.*
 
