@@ -1,5 +1,7 @@
 # SensRNet Operations
 
+> :warning: This readme is OUTDATED. Please refer to https://kadaster-labs.github.io/sensrnet-home/Deployment/ for the latest instructions on how to install the SensRNet application.
+
 This repository contains all operations steps and scripts needed to operate the Kubernetes environments on which the application will run.
 
 - [SensRNet Operations](#sensrnet-operations)
@@ -14,8 +16,7 @@ This repository contains all operations steps and scripts needed to operate the 
 - [Deploy registry node components](#deploy-registry-node-components)
   - [Initialization](#initialization)
   - [Secret management](#secret-management)
-  - [Monitoring](#monitoring)
-  - [Logging](#logging)
+  - [Monitoring & Logging](#monitoring--logging)
   - [The Sensrnet application](#the-sensrnet-application)
 - [About this project](#about-this-project)
   - [Find Us](#find-us)
@@ -109,16 +110,12 @@ $ kubectl get secrets -A
 
 See [Secrets](#Secrets) on how to update and store the secrets file locally. Every time you update the secrets, you have to rerun these steps.
 
-## Monitoring
-Now that the namespaces and secrets are available, we can deploy the monitoring stack. We make use of Prometheus + Grafana for monitoring.
-```bash
-$ kustomize build monitoring/overlays/test | kubectl apply -f -
-```
+## Monitoring & Logging
+You can use your own favorite monitoring and logging solutions, or make use of the Haven suggested stacks Prometheus and Loki:
 
-## Logging
-For cluster and application logging we make use of the EFK stack (Elasticsearch, Fluentd, Kibana). In 
-```bash
-$ kustomize build logging/overlays/test | kubectl apply -f -
+```
+haven addons install prometheus-stack
+haven addons install loki
 ```
 
 ## The Sensrnet application
