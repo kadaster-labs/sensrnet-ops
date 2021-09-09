@@ -18,7 +18,13 @@ if [ $SKIP_DEPENDENCIES = false ] ; then
 
   helm repo update
 
-  helm upgrade --install traefik traefik/traefik
+  helm upgrade --install traefik traefik/traefik \
+  --set ports.multichain.port=8571 \
+  --set ports.multichain.expose=true \
+  --set ports.multichain.exposedPort=8571 \
+  --set ports.multichain.protocol=TCP \
+  --set service.spec.externalTrafficPolicy=Local
+
   helm upgrade --install dex dex/dex \
     --set "livenessProbe.httpPath=/dex/healthz" \
     --set "readinessProbe.httpPath=/dex/healthz" \
@@ -69,9 +75,11 @@ helm upgrade --install registry-backend $CHARTS_FOLDER/registry-backend \
   --set image.tag=latest \
   --set image.pullPolicy=Never \
   --set settings.oidc_issuer=http://localhost/dex \
-  --set settings.oidc_jwks_url=http://dex:5556/dex/keys \
+  --set settings.oidc_jwks_url=http://localhost/dex/keys \
   --set mongodb.podAntiAffinityPreset=soft \
-  --set eventstore.affinity=null
+  --set eventstore.affinity=null \
+  --set ingress.host=localhost \
+  --set ingress.path=/api
 
 helm upgrade --install sync-bridge $CHARTS_FOLDER/sync-bridge \
   --namespace registry \
@@ -84,4 +92,5 @@ helm upgrade --install registry-frontend $CHARTS_FOLDER/registry-frontend \
   --set image.repository=sensrnet-registry-frontend_registry-frontend \
   --set image.tag=latest \
   --set image.pullPolicy=Never \
-  --set settings.oidc_issuer=http://localhost/dex
+  --set settings.oidc_issuer=http://localhost/dex \
+  --set ingress.host=localhost
