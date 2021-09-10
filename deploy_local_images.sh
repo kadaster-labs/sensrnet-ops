@@ -70,7 +70,7 @@ helm upgrade --install registry-backend $CHARTS_FOLDER/registry-backend \
   --set image.tag=latest \
   --set image.pullPolicy=Never \
   --set settings.oidc_issuer=http://localhost/dex \
-  --set settings.oidc_jwks_url=http://localhost/dex/keys \
+  --set settings.oidc_jwks_url=http://dex.default:5556/dex/keys \
   --set mongodb.podAntiAffinityPreset=soft \
   --set eventstore.affinity=null \
   --set ingress.host=localhost \
