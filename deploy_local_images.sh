@@ -94,3 +94,20 @@ helm upgrade --install registry-frontend $CHARTS_FOLDER/registry-frontend \
   --set image.pullPolicy=Never \
   --set settings.oidc_issuer=http://localhost/dex \
   --set ingress.host=localhost
+
+# Add 'local' viewer to registry node
+helm upgrade --install central-viewer $CHARTS_FOLDER/central-viewer \
+  --namespace registry \
+  --set image.repository=sensrnet-central-viewer_central-viewer \
+  --set image.tag=latest \
+  --set image.pullPolicy=Never \
+  --set ingress.host=localhost \
+  --set ingress.path=/viewer
+
+helm upgrade --install central-viewer-geoserver $CHARTS_FOLDER/central-viewer-geoserver \
+  --namespace registry \
+  --set image.repository=sensrnet-central-viewer-geoserver_geoserver \
+  --set image.tag=latest \
+  --set image.pullPolicy=Never \
+  --set ingress.host=localhost \
+  --set ingress.path=/geoserver
