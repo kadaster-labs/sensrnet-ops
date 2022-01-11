@@ -64,8 +64,8 @@ helm upgrade --install multichain-node $CHARTS_FOLDER/multichain-node \
 
 echo "Deploying databases, this might take a while..."
 helm upgrade --install registry-backend $CHARTS_FOLDER/registry-backend \
-  --wait \
   --namespace registry \
+  --set replicaCount=1 \
   --set image.repository=sensrnet-registry-backend_registry-backend \
   --set image.tag=latest \
   --set image.pullPolicy=Never \
@@ -75,11 +75,6 @@ helm upgrade --install registry-backend $CHARTS_FOLDER/registry-backend \
   --set eventstore.affinity=null \
   --set ingress.host=localhost \
   --set ingress.path=/api
-
-helm upgrade --install registry-backend $CHARTS_FOLDER/registry-backend \
-  --namespace registry \
-  --reuse-values \
-  --set replicaCount=1
 
 helm upgrade --install sync-bridge $CHARTS_FOLDER/sync-bridge \
   --namespace registry \
